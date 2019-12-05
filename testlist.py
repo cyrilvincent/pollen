@@ -30,6 +30,19 @@ def list2(l):
         res.append(val)
     return res
 
+def minMaxAvg(l):
+    min = l[0]
+    max = l[0]
+    sum = 0
+    for val in l:
+        if val < min:
+            min = val
+        if val > max:
+            max = val
+        sum += val
+    return min, max, sum /len(l)
+
+
 import unittest
 class ListTest(unittest.TestCase):
 
@@ -82,4 +95,7 @@ class ListTest(unittest.TestCase):
         # <=>
         self.assertTrue(1 in i)
 
+    def testTuple(self):
+        min, max, avg = minMaxAvg(range(10))
+        print(min, max, avg)
 
