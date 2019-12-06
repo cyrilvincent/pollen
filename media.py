@@ -69,6 +69,45 @@ class Cart:
     def totalNetPrice2(self):
         return functools.reduce(lambda acc, cur : acc + cur.netPrice, self.medias, 0)
 
+import abc
+from typing import Iterable
+class MediaRepository(metaclass=abc.ABCMeta):
+
+    def __init__(self, uri):
+        self.uri = uri
+
+    @abc.abstractmethod
+    def getAll(self) -> Iterable[Media]: ...
+
+    @abc.abstractmethod
+    def getByPrice(self): ...
+
+import sqlite3
+class MediaDb(MediaRepository):
+
+    def __init__(self, uri):
+        super().__init__(uri)
+
+    def _getBySql(self, sql, conn):
+        c = conn.cursor()
+        return c.execute(sql)
+
+    def _mapCursorToBook(self, row):
+        b = Book(row[0], row[1], row[2])
+        return b
+
+    def getAll(self):
+        with sqlite3.connect(self.uri) as conn:
+            rows = self._getBySql("select * from book", conn)
+            return (self._mapCursorToBook(row) for row in rows)
+
+    def getByPrice(self, price):
+        with sqlite3.connect(self.uri) as conn:
+            rows = self._getBySql(f"select * from book where price <= {price}", conn)
+            return (self._mapCursorToBook(row) for row in rows)
+
+
+
 
 
 
