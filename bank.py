@@ -4,6 +4,9 @@ class Customer:
         self.firstName = firstName
         self.lastName = lastName
 
+    def __eq__(self, other):
+        return self.firstName == other.firstName and self.lastName == other.lastName
+
 import datetime
 class Transaction:
 
@@ -45,7 +48,14 @@ class BankAccount:
         else:
             raise ValueError("Amount > balance")
 
+    def __eq__(self, other):
+        return self.owner == other.owner and self.balance == other.balance
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __cmp__(self, other):
+        return self.balance - other.balance
 
 import unittest
 class BankTest(unittest.TestCase):
@@ -76,9 +86,9 @@ class BankTest(unittest.TestCase):
         self.assertTrue(l1 == l2)
         self.assertFalse(l1 is l2)
 
-        ba1 = BankAccount("toto")
-        ba2 = BankAccount("toto")
-        self.assertFalse(ba1 == ba2)
+        ba1 = BankAccount(Customer("Cyril","Vincent"))
+        ba2 = BankAccount(Customer("Cyril","Vincent"))
+        self.assertTrue(ba1 == ba2)
         self.assertFalse(ba1 is ba2)
 
     def testStatic(self):
