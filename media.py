@@ -28,16 +28,29 @@ class Media(metaclass=abc.ABCMeta):
     def __repr__(self):
         return f"{type(self).__name__}: {self.id} {self.title}"
 
+import re
 class Book(Media):
     def __init__(self, id, title, price, date=datetime.datetime.now(), publisher: Publisher = None,
-                 authors: List[Author] = [], nbPage = 0):
+                 authors: List[Author] = [], nbPage = 0, isbn=None):
         super().__init__(id,title,price,date,publisher,authors)
+        self._isbn = isbn
         self.nbPage = nbPage
 
     # @property
     # def netPrice(self):
     #     return self.price * 1.05 * 0.95 + 0.01
 
+    @property
+    def isbn(self):
+        return self._isbn
+
+    @isbn.setter
+    def isbn(self, value):
+        regex = r"^(\d{3}[- ]?)?\d[- ]?\d{4}[- ]?\d{4}[- ]?\d$"
+        if re.search(regex, value):
+            self._isbn = value
+        else:
+            raise ValueError("Bad ISBN format")
 
 class Cd(Media):
     def __init__(self, id, title, price, date=datetime.datetime.now(), publisher: Publisher = None,
