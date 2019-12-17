@@ -51,7 +51,7 @@ ESTIMATORS = {
     "Random Forest": RandomForestRegressor(n_estimators=10, max_features=32),
     "K-nn": KNeighborsRegressor(),
     "Linear regression": LinearRegression(),
-    "MLP": MLPRegressor(hidden_layer_sizes=(1000,1000,1000,1000,1000)),
+    "MLP": MLPRegressor(hidden_layer_sizes=(1000,1000,1000)),
 }
 
 y_test_predict = dict()
