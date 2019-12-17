@@ -9,7 +9,6 @@ house_data = pd.read_csv('house/house.csv')
 surface_max = 300
 house_data = house_data[house_data.surface < surface_max]
 
-import numpy as np
 standard_dev = 2199
 f = lambda x : 41 * x - 283
 house_data = house_data[abs(f(house_data.surface) - house_data.loyer) < 3 * standard_dev ]

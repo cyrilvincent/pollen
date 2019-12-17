@@ -33,11 +33,6 @@ print(model.score(X, y)) #75%
 import sklearn.preprocessing as pp
 import sklearn.pipeline as pipe
 
-# make_pipe_line create a model with a feature
-# PolynomialFeature = Algo polynomial
-# Ridge = Error square algo
-# model = pp.make_pipeline(pipe.PolynomialFeatures(1), sklm.Ridge())
-# <=> LinearRegression
 model = pipe.make_pipeline(pp.PolynomialFeatures(2), sklm.Ridge())
 model.fit(X,y)
 y_plot = model.predict(X_plot)
